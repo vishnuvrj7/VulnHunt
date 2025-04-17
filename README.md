@@ -1,33 +1,34 @@
 # VulnHunt - Vulnerability Scanner
 
-![VulnHunt Logo](https://img.shields.io/badge/VulnHunt-Security%20Scanner-red)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+![Security Scanner](https://img.shields.io/badge/Security-Scanner-red)
+![Python 3.7+](https://img.shields.io/badge/Python-3.7+-blue)
+![License MIT](https://img.shields.io/badge/License-MIT-yellow)
 
-**VulnHunt** is an advanced vulnerability scanner that helps identify and assess potential security vulnerabilities in target systems. It provides detailed information about open ports, services, HTTP headers, and banners to aid in security analysis.
+VulnHunt is an advanced vulnerability scanner designed to identify and analyze potential security vulnerabilities in target systems. It offers features such as detailed port scanning, service banner grabbing, HTTP header analysis, and integration with the Vulners API for vulnerability detection.
 
 ## 🔍 Features
 
-- **Port Scanning**: Scan a specified range of ports to identify open ports on a target
-- **Service Banner Grabbing**: Detect the services and versions running on open ports (e.g., HTTP, FTP, SSH)
-- **HTTP Headers Analysis**: Fetch HTTP response headers and analyze them for common security issues
-- **Progress Bar**: Displays a progress bar for scan tasks, with an estimate of time to complete
-- **Scan Report**: Generates a detailed report on potential vulnerabilities based on the findings
+- **Port Scanning**: Scan specified port ranges to identify open ports.
+- **Service Banner Grabbing**: Detect running services and versions (e.g., HTTP, FTP, SSH).
+- **HTTP Headers Analysis**: Fetch and analyze HTTP response headers for common security issues.
+- **Vulnerability Detection**: Integration with the Vulners API for analyzing services and reporting potential vulnerabilities.
+- **Progress Bar**: Displays a real-time progress bar with an estimated time to complete the scan.
+- **Secure Configuration**: API keys are securely managed using an .env file.
 
 ## 📋 Prerequisites
 
-Before running **VulnHunt**, you need to have the following installed:
+Before running VulnHunt, ensure the following:
 
-- **Python 3.7** or higher
-- **pip** (Python's package manager)
+- Python 3.7 or higher
+- pip (Python's package manager)
 
 ### Install Python 3.7 or Higher
 
-You can download and install Python from the official website:
+Download and install Python from the official website:
 
 - [Download Python](https://www.python.org/downloads/)
 
-Once installed, confirm Python is available by running:
+Confirm Python installation:
 
 ```bash
 python --version
@@ -35,19 +36,15 @@ python --version
 
 ## 🔧 Installation
 
-Follow these steps to get VulnHunt up and running:
+Follow these steps to install and configure VulnHunt:
 
 ### 1. Clone the Repository
 
-First, clone the VulnHunt repository to your local machine using Git:
+Clone the VulnHunt repository:
 
 ```bash
-git clone https://github.com/yourusername/VulnHunt.git
+git clone https://github.com/vishnuvrj7/VulnHunt.git
 ```
-
-This will create a folder named `VulnHunt` with the code in it.
-
-### 2. Install Dependencies
 
 Navigate to the VulnHunt directory:
 
@@ -55,115 +52,116 @@ Navigate to the VulnHunt directory:
 cd VulnHunt
 ```
 
-Install the required Python libraries by using the requirements.txt file:
+### 2. Install Dependencies
+
+Install the required Python libraries:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-This command will install all the necessary dependencies for VulnHunt, including:
+Dependencies include:
+- **python-nmap**: For port scanning and banner grabbing
+- **requests**: For HTTP requests
+- **colorama**: For colored console output
+- **tqdm**: For progress bar
+- **python-dotenv**: For managing environment variables
+- **vulners**: For vulnerability analysis
 
-- **python-nmap**: For performing detailed port scans and banner grabbing
-- **requests**: For HTTP requests and fetching HTTP headers
-- **colorama**: For adding color to console output
-- **tqdm**: For displaying a progress bar during the scan
+### 3. Configure the .env File
 
-### 3. Set Up the Configuration (Optional)
+To use the Vulners API, you need to generate your own API key:
 
-You may need to customize certain configurations like the scan range or timeout settings. These can typically be adjusted directly within the code if necessary.
+Sign up for Vulners:
 
-If you need any specific configurations, look into the `config.py` file or edit the default parameters in `scanner.py`.
+Visit [Vulners](https://vulners.com/docs) and create an account.
+
+Once logged in, navigate to the API section and generate an API key.
+
+
+In the root directory of this project, create a file named .env.
+
+Add the following line to the .env file:
+
+```env
+VULNERS_API_KEY=your_api_key_here
+```
+
 
 ## 🚀 Usage
 
-### 1. Run the Vulnerability Scanner
+### 1. Run the Scanner
 
-To start the vulnerability scan, run the following command:
+Run the scanner using:
 
 ```bash
 python scanner.py
 ```
 
-### 2. Scan Settings
+### 2. Input Parameters
 
-Upon running the scanner, you'll be prompted to enter the following details:
+You'll be prompted to provide the following:
 
-- **Target**: The domain or IP address of the target you want to scan (e.g., example.com or 192.168.1.1)
-- **Port Range**: Specify the range of ports you want to scan. The default is 1-1024, but you can choose a custom range (e.g., 80-443 for HTTP and HTTPS)
-- **HTTP Headers Analysis**: Choose whether you want the scanner to fetch and analyze HTTP headers (enter y or n)
-- **Scan Level**: You can set the intensity of the scan (e.g., a broader range or more detailed scans)
+- **Target**: Domain or IP address (e.g., example.com or 192.168.1.1)
+- **Port Range**: Range of ports to scan (default is 1-1024)
 
-Here's an example of how the prompt might look:
+Example prompt:
 
 ```
-Enter target IP/domain: example.com
-Enter port range (default 1-1024): 80-443
-Enable HTTP header analysis (y/n): y
+Enter the target IP or hostname: localhost
+Enter the port range (default is 1-1024): 80-443
 ```
 
-### 3. Output and Results
+### 3. Output
 
-Once the scan completes, VulnHunt will provide detailed output, including:
+The scanner will display:
 
-- A list of open ports and the services running on them (HTTP, FTP, SSH, etc.)
-- HTTP header information (if selected)
-- Potential vulnerabilities based on service versions and security configurations
+- Open ports and their services (e.g., HTTP, FTP)
+- Detailed vulnerability analysis (if vulnerabilities are found)
 
-The scanner also shows a progress bar that updates in real-time as the scan progresses, along with an estimated time to complete.
+Progress is shown using a real-time progress bar with an estimated time to complete.
 
 Example output:
 
 ```
-[+] Scanning 192.168.1.1 on ports 80-443
-[+] Open Port: 80 (HTTP)
-    - Service: Apache 2.4.41
-    - Banner: Apache/2.4.41 (Unix)
-[+] HTTP Headers Analysis:
-    - X-Content-Type-Options: nosniff
-    - Strict-Transport-Security: max-age=31536000; includeSubDomains
-    ...
+Scanning Ports: 100%|███████████████████████████████████████| 1024/1024 [08:44<00:00,  1.95it/s]
+
+Scan Completed! Results:
+Port 135: epmap
+    Vulnerabilities:
+    - CVE-2004-0716
+    - Service Detection (FIND_SERVICE2.NASL)
+
+Port 445: microsoft-ds
+    Vulnerabilities:
+    - CVE-2002-0597
+    - MS08-068 Microsoft Windows SMB Relay Code Execution
 ```
 
-### 4. Generating Reports
-
-You can also generate a detailed report after a scan is completed. The report will include information such as:
-
-- Detected open ports
-- Banner information
-- HTTP headers analysis results
-- Potential vulnerabilities
-
-Example:
-```
-python scanner.py
-# Enter target IP/domain: example.com
-# Enter port range (default 1-1024): 80-443
-# Enable HTTP header analysis (y/n): y
-```
 
 ## 🤝 Contributing
 
-We welcome contributions to VulnHunt! If you would like to add a feature, improve documentation, or fix a bug, follow these steps:
+Contributions are welcome! To contribute:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature-name`)
 3. Commit your changes (`git commit -am 'Add feature'`)
 4. Push to the branch (`git push origin feature-name`)
-5. Create a pull request
-
-We'll review your changes and merge them into the main project.
+5. Submit a pull request
 
 ## 📜 License
 
-VulnHunt is licensed under the MIT License. See the LICENSE file for more details.
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## 👏 Acknowledgements
 
-- **python-nmap**: Port scanning and service detection library
-- **requests**: HTTP requests library
-- **colorama**: Library for colored terminal output
-- **tqdm**: Library for progress bars
+- **python-nmap**: For port scanning and banner grabbing
+- **requests**: For HTTP requests
+- **colorama**: For terminal color formatting
+- **tqdm**: For progress bar
+- **vulners**: For vulnerability analysis
+- **python-dotenv**: For environment variable management
 
 ---
 
-**Note**: VulnHunt is a tool for ethical hackers, penetration testers, and anyone interested in learning about vulnerabilities in web applications and networks. Use it responsibly, and always get permission before scanning any systems.
+**Disclaimer**: VulnHunt is intended for educational and ethical purposes. Always obtain proper authorization before scanning systems. Misuse of this tool may violate laws and ethical guidelines. Use responsibly!
