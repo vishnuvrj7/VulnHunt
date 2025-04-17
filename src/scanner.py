@@ -1,5 +1,17 @@
 from utils import detailed_port_scan, print_scan_results
 
+def display_banner():
+    banner = r"""
+    ██    ██ ██    ██ ██      ███    ██ ██   ██ ██    ██ ███    ██ ████████ 
+    ██    ██ ██    ██ ██      ████   ██ ██   ██ ██    ██ ████   ██    ██    
+    ██    ██ ██    ██ ██      ██ ██  ██ ███████ ██    ██ ██ ██  ██    ██    
+     ██  ██  ██    ██ ██      ██  ██ ██ ██   ██ ██    ██ ██  ██ ██    ██    
+      ████    ██████  ███████ ██   ████ ██   ██  ██████  ██   ████    ██    
+
+                            ~ VRJ ~                          
+    """
+    print(banner)
+
 def main():
     target = input("Enter the target IP or hostname: ")
     ports = input("Enter the port range (default is 1-1024): ") or "1-1024"
@@ -10,6 +22,6 @@ def main():
     print("\nScan Completed! Results:")
     print_scan_results(results)
 
-
 if __name__ == "__main__":
+    display_banner()
     main()
