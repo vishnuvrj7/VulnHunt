@@ -1,50 +1,26 @@
-import nmap
+import socket
+from tqdm import tqdm
+from time import sleep
 
-def detailed_port_scan(target, ports="1-1024"):
-    """
-    Perform a detailed port scan using nmap.
+def detailed_port_scan(target, port_range):
+    open_ports = {}
+    start_port, end_port = map(int, port_range.split('-'))
     
-    Args:
-        target (str): The IP or hostname to scan.
-        ports (str): Port range to scan (default is 1-1024).
-        
-    Returns:
-        dict: A dictionary containing open ports and service details.
-    """
-    scanner = nmap.PortScanner()
-    scan_result = {}
+    with tqdm(total=end_port - start_port + 1, desc="Scanning Ports", unit="port") as pbar:
+        for port in range(start_port, end_port + 1):
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.settimeout(0.5)
+                result = s.connect_ex((target, port))
+                if result == 0:
+                    try:
+                        service_name = socket.getservbyport(port)
+                        open_ports[port] = service_name
+                    except OSError:
+                        open_ports[port] = "Unknown"
+                pbar.update(1)
+                sleep(0.01)  # Simulating delay for better progress visibility
+    return open_ports
 
-    try:
-        # Perform scan
-        scanner.scan(target, ports, arguments="-sV")
-        
-        # Parse results
-        for host in scanner.all_hosts():
-            scan_result[host] = []
-            for port in scanner[host]['tcp']:
-                port_data = {
-                    "port": port,
-                    "state": scanner[host]['tcp'][port]['state'],
-                    "service": scanner[host]['tcp'][port]['name'],
-                    "version": scanner[host]['tcp'][port]['version']
-                }
-                scan_result[host].append(port_data)
-    
-    except Exception as e:
-        print(f"Error during scanning: {e}")
-
-    return scan_result
-
-
-def print_scan_results(scan_results):
-    """
-    Print the results of the nmap scan in a readable format.
-
-    Args:
-        scan_results (dict): Scan results from the detailed_port_scan function.
-    """
-    for host, ports in scan_results.items():
-        print(f"\nHost: {host}")
-        print("Open Ports:")
-        for port_info in ports:
-            print(f"  - Port {port_info['port']} ({port_info['service']}): {port_info['state']} ({port_info['version']})")
+def print_scan_results(results):
+    for port, service in results.items():
+        print(f"Port {port}: {service}")

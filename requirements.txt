@@ -2,3 +2,5 @@ python-nmap==0.7.1
 requests==2.28.1
 colorama==0.4.6
 tqdm==4.64.0
+vulners==2.0.10
+python-dotenv==1.1.0
